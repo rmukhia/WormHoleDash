@@ -1,0 +1,8 @@
+cmake-build-debug
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+tags
+.idea
+
