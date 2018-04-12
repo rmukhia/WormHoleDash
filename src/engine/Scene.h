@@ -5,15 +5,28 @@
 #ifndef CGPROJECT_SCENECONTEXT_H
 #define CGPROJECT_SCENECONTEXT_H
 
-
-
-#include "GameObject.h"
 #include <vector>
+#include "Camera.h"
+#include "Actor.h"
 
 class Scene {
-    std::vector<GameObject> objects;
+    Camera *camera;
+    std::vector<Actor*> objects;
     enum state { STOPPED, PAUSED, RUNNING};
+public:
+    virtual void create();
 
+    virtual void draw();
+
+    virtual void update();
+
+    virtual void paused();
+
+    virtual void destroy();
+
+    Camera *getCamera() const;
+
+    void setCamera(Camera *camera);
 };
 
 

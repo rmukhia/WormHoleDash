@@ -6,7 +6,7 @@
 #define CGPROJECT_GAMECONTEXT_H
 
 
-class GameContext {
+class Game {
 public:
     bool fullScreen;
     float screenHeight;
@@ -16,13 +16,17 @@ public:
     char gameName[255];
 
 public:
-    static GameContext * instance();
+    static Game * instance();
+
+    float getAspectRatio () {
+        return screenWidth/screenHeight;
+    }
 
 protected:
-    GameContext() {}
+    Game() {}
 
 private:
-    static GameContext * _instance;
+    static Game * _instance;
 };
 
 #endif //CGPROJECT_GAMECONTEXT_H

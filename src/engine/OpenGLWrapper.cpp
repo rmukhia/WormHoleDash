@@ -4,11 +4,13 @@
 
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include "Game.h"
 #include "OpenGLWrapper.h"
-#include "engine/GameContext.h"
+#include "SceneManager.h"
 
 void initializeOpenGL(int argc, char **argv) {
-    GameContext *gameContext = GameContext::instance();
+    Game *gameContext = Game::instance();
+    SceneManager *sceneManager = SceneManager::instance();
     glutInit(&argc, argv);
     glutInitContextVersion(4, 2);
     glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
@@ -34,11 +36,13 @@ void initializeOpenGL(int argc, char **argv) {
 }
 
 void drawScene(void) {
+    SceneManager *sceneManager = SceneManager::instance();
+    sceneManager->getActiveScene().draw();
 }
 
 void resize(int w, int h) {
     // Update the screen size
-    GameContext *gameContext = GameContext::instance();
+    Game *gameContext = Game::instance();
     gameContext->screenWidth = w;
     gameContext->screenHeight = h;
 }

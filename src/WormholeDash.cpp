@@ -4,23 +4,21 @@
  */
 
 
-#include <GL/glew.h>
-#include <GL/freeglut.h>
 #include <cstring>
-#include "src/OpenGLWrapper.h"
-#include "src/engine/GameContext.h"
+#include "engine/OpenGLWrapper.h"
+#include "engine/Game.h"
 
-GameContext *initGameContext() {
-    GameContext * gameContext = GameContext::instance();
+Game *initGameContext() {
+    Game * gameContext = Game::instance();
     strcpy(gameContext->gameName, "Wormhole Dash");
-    gameContext->fullScreen = true;
+    gameContext->fullScreen = false;
     return gameContext;
 }
 
 int main(int argc, char **argv)
 {
     // Create game context
-    GameContext *gameContext = initGameContext();
+    Game *gameContext = initGameContext();
 
     // Intialize OpenGL
     initializeOpenGL(argc, argv);
