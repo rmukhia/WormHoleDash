@@ -2,13 +2,17 @@
 // Created by Raunak Mukhia on 12/4/18.
 //
 
-#include <GL/glu.h>
 #include "Camera.h"
+#include "Game.h"
 
 void Camera::project() {
-    if (changed) {
+    Game *game = Game::instance();
+    if (game->sizeChanged) {
+        glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective(fovy, aspect, zNear, zFar);
+        gluPerspective(fovy, game->getAspectRatio(), zNear, zFar);
         changed = false;
+        game->sizeChanged = false;
+        glMatrixMode(GL_MODELVIEW);
     }
 }

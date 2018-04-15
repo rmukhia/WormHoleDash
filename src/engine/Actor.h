@@ -10,7 +10,8 @@
 #ifndef CGPROJECT_GAMEOBJECT_H
 #define CGPROJECT_GAMEOBJECT_H
 
-#include <GL/gl.h>
+#include "../glheaders.h"
+#include "Command.h"
 
 class Actor {
 protected:
@@ -64,6 +65,8 @@ public:
   virtual void update() = 0;
 
   virtual void destroy() = 0;
+
+  virtual void act(Command *pCommand) = 0;
 };
 
 #endif // CGPROJECT_GAMEOBJECT_H

@@ -6,6 +6,7 @@
 #define WORMHOLEDASH_SPEEDBUGGY_H
 
 
+#include "../../glheaders.h"
 #include "../../engine/Actor.h"
 
 class SpeedBuggy: public Actor {
@@ -18,6 +19,8 @@ public:
     void update() override;
 
     void destroy() override;
+
+    void act(Command *pCommand) override;
 };
 
 

@@ -6,7 +6,10 @@
 #define CGPROJECT_SCENEMANAGER_H
 
 #include<vector>
+#include <list>
+#include "../glheaders.h"
 #include "Scene.h"
+#include "Command.h"
 
 class SceneManager {
 private:
@@ -22,10 +25,13 @@ protected:
 public:
     static SceneManager * instance();
 
-    std::vector<Scene*> getScenes();
+    std::vector<Scene*> *getScenes();
 
-    Scene getActiveScene() {
-        return *scenes[currSceneIndex];
+    Scene * getActiveScene() {
+        if (scenes.size() == 0) {
+            return nullptr;
+        }
+        return scenes[currSceneIndex];
     }
 
     void setActiveScene(int index) {
@@ -35,6 +41,7 @@ public:
     int getCurrSceneIndex() const;
 
     void setCurrSceneIndex(int currSceneIndex);
+
 };
 
 

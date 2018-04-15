@@ -6,6 +6,7 @@
 #define WORMHOLEDASH_STARTBACKGROUND_H
 
 
+#include "../../../glheaders.h"
 #include "../../../engine/Actor.h"
 
 class StartBackground: public Actor {
@@ -17,6 +18,8 @@ public:
     void update() override;
 
     void destroy() override;
+
+    void act(Command *pCommand) override;
 
 };
 

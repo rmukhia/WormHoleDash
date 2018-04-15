@@ -3,7 +3,6 @@
 //
 
 
-#include <vector>
 #include "Scene.h"
 #include "SceneManager.h"
 
@@ -16,8 +15,8 @@ SceneManager* SceneManager::instance() {
     return _instance;
 }
 
-std::vector<Scene*> SceneManager::getScenes() {
-    return scenes;
+std::vector<Scene*> *SceneManager::getScenes() {
+    return &scenes;
 }
 
 int SceneManager::getCurrSceneIndex() const {
@@ -27,3 +26,4 @@ int SceneManager::getCurrSceneIndex() const {
 void SceneManager::setCurrSceneIndex(int currSceneIndex) {
     SceneManager::currSceneIndex = currSceneIndex;
 }
+

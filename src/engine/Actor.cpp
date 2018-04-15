@@ -2,7 +2,6 @@
 // Created by Raunak Mukhia on 7/4/18.
 //
 
-#include <GL/gl.h>
 #include "Actor.h"
 
 int Actor::getId() const { return id; }

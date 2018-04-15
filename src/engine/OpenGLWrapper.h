@@ -5,9 +5,12 @@
 #ifndef CGPROJECT_OPENGLSTATES_H
 #define CGPROJECT_OPENGLSTATES_H
 
-void initializeOpenGL(int argc, char **argv);
+#include "../glheaders.h"
+
+void initializeOpenGL(int argc, char **argv, void (* callback)(void));
 void drawScene(void);
 void resize(int w, int h);
 void keyInput(unsigned char key, int x, int y);
+void redraw();
 
 #endif //CGPROJECT_OPENGLSTATES_H

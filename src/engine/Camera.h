@@ -5,7 +5,7 @@
 #ifndef WORMHOLEDASH_CAMERA_H
 #define WORMHOLEDASH_CAMERA_H
 
-#include <GL/gl.h>
+#include "../glheaders.h"
 
 class Camera {
 private:
