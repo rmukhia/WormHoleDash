@@ -21,9 +21,9 @@ private:
 public:
     virtual void create();
 
-    virtual void draw();
+    virtual void draw(int nSteps);
 
-    virtual void update();
+    virtual void update(int nSteps);
 
     virtual void paused();
 

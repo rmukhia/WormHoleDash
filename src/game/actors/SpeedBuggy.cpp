@@ -7,7 +7,9 @@
 #include "../CommandCodes.h"
 
 void SpeedBuggy::create() {
-
+    rp3d::Vector3 initPosition(0.0, 0.0, 0.0);
+    rp3d::Quaternion initOrientation = rp3d::Quaternion::identity();
+    rp3d::Transform transform(initPosition, initOrientation);
 }
 
 void SpeedBuggy::draw() {
@@ -47,3 +49,4 @@ void SpeedBuggy::act(Command *pCommand) {
     }
 
 }
+

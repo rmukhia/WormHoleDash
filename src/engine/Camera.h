@@ -5,6 +5,7 @@
 #ifndef WORMHOLEDASH_CAMERA_H
 #define WORMHOLEDASH_CAMERA_H
 
+#include <cstring>
 #include "../glheaders.h"
 
 class Camera {
@@ -15,14 +16,24 @@ private:
   GLdouble zFar;
   bool changed;
 
+  GLfloat eye[3];
+  GLfloat center[3];
+  GLfloat up[3];
+  bool hasLookAt;
+
+
 public:
   Camera(GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar)
       : fovy(fovy), aspect(aspect), zNear(zNear), zFar(zFar) {
     changed = true;
+    hasLookAt = false;
   }
 
   void project();
 
+  void lookAt();
+
+  void setLookAt(GLfloat *e, GLfloat *c, GLfloat *u);
 
   GLdouble getFovy() const { return fovy; }
 

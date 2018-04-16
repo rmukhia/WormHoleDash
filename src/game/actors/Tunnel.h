@@ -27,6 +27,7 @@ public:
 
     void create() override;
 
+
     void draw() override;
 
     void update() override;
@@ -38,6 +39,18 @@ public:
     void setStartVertices(GLfloat x, GLfloat y, GLfloat z);
 
     void getEndVertices(GLfloat *x, GLfloat *y, GLfloat *z);
+
+    GLfloat getStartZ() {
+        return startVertices[2];
+    }
+
+    GLfloat getEndZ() {
+        return endVertices[2];
+    }
+
+    GLfloat *_getStartVertices();
+
+    GLfloat *_getEndVertices();
 
 };
 

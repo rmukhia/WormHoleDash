@@ -33,3 +33,27 @@ void Actor::setPosY(GLfloat posY) { Actor::posY = posY; }
 GLfloat Actor::getPosZ() const { return posZ; }
 
 void Actor::setPosZ(GLfloat posZ) { Actor::posZ = posZ; }
+
+GLfloat Actor::getAngleX() const {
+  return angleX;
+}
+
+void Actor::setAngleX(GLfloat angleX) {
+  Actor::angleX = angleX;
+}
+
+GLfloat Actor::getAngleY() const {
+  return angleY;
+}
+
+void Actor::setAngleY(GLfloat angleY) {
+  Actor::angleY = angleY;
+}
+
+GLfloat Actor::getAngleZ() const {
+  return angleZ;
+}
+
+void Actor::setAngleZ(GLfloat angleZ) {
+  Actor::angleZ = angleZ;
+}

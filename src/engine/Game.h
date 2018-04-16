@@ -23,6 +23,7 @@ public:
     GLfloat Yangle;
     GLfloat Zangle; // Angles to rotate hemisphere.
 
+    float timeStep;
 
 public:
     static Game * instance();

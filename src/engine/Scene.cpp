@@ -15,10 +15,11 @@ void Scene::create() {
 }
 
 //TODO: Try to implement batch later on
-void Scene::draw() {
+void Scene::draw(int i) {
     Game *game = Game::instance();
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
+    getCamera()->lookAt();
     glTranslated(0.0, 0.0, game->Ztranslate);
 
     for(auto cmd: sceneCommandQueue) {
@@ -49,7 +50,7 @@ void Scene::draw() {
     glutSwapBuffers();
 }
 
-void Scene::update() {
+void Scene::update(int i) {
     // Try to apply command to all the actors in stage
     // The actor should evaluate the command and take proper steps
 

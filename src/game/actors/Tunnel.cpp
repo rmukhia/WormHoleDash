@@ -12,9 +12,15 @@
 
 void Tunnel::create() {
     //TODO: increase algorithm complexity
+#if 0
     endVertices[0] = startVertices[0] + thetaHorizontal; // x
     endVertices[1] = startVertices[1] + thetaVertical; // y
     endVertices[2] = startVertices[2] - length; // z
+#else
+    endVertices[0] = startVertices[0]; // x
+    endVertices[1] = startVertices[1]; // y
+    endVertices[2] = startVertices[2] - length; // z
+#endif
 
     vertices = new GLfloat[NUM_FLOAT_PER_TUNNEL + 6];
 
@@ -78,4 +84,12 @@ void Tunnel::getEndVertices(GLfloat *x, GLfloat *y, GLfloat *z) {
     *x = endVertices[0];
     *y = endVertices[1];
     *z = endVertices[2];
+}
+
+GLfloat *Tunnel::_getStartVertices() {
+    return startVertices;
+}
+
+GLfloat *Tunnel::_getEndVertices() {
+    return endVertices;
 }

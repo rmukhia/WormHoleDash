@@ -10,6 +10,7 @@
 #include "../../engine/Actor.h"
 
 class SpeedBuggy: public Actor {
+    rp3d::RigidBody * body;
 
 public:
     void create() override;

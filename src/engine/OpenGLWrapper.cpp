@@ -3,10 +3,13 @@
 //
 
 #include <iostream>
+#include <sys/time.h>
 #include "OpenGLWrapper.h"
 #include "Game.h"
 #include "SceneManager.h"
 
+static long double previousFrameTime = -1.0;
+static long double timeAccumulator = 0.0;
 
 void setup(void (*callback)(void)) {
     Game *game = Game::instance();
@@ -42,13 +45,48 @@ void initializeOpenGL(int argc, char **argv, void (*callback)(void)) {
     glutMainLoop();
 }
 
+long double getCurrentSystemTime() {
+    timeval time;
+    gettimeofday(&time, NULL);
+    long t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+    return t/1000.0;
+}
+
+int timestepUpdate() {
+    int num_steps = 0;
+    Game *game = Game::instance();
+    float timeStep = game->timeStep;
+
+    long double currentFrameTime = getCurrentSystemTime();
+
+    if (previousFrameTime <= 0.0) {
+        previousFrameTime  = currentFrameTime;
+    }
+
+    long double deltaTime  = currentFrameTime - previousFrameTime;
+
+    previousFrameTime = currentFrameTime;
+
+    timeAccumulator += deltaTime;
+
+    while (timeAccumulator >= timeStep) {
+        num_steps++;
+        timeAccumulator -= timeStep;
+    }
+
+    return num_steps;
+}
+
 void drawScene(void) {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
 
+    long double currentFrameTime = getCurrentSystemTime();
+
     if (scene) {
-        scene->update();
-        scene->draw();
+        int num_steps = timestepUpdate();
+        scene->update(num_steps);
+        scene->draw(num_steps);
     }
 }
 

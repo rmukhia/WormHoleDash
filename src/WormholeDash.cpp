@@ -16,16 +16,19 @@ Game *initGameContext() {
     gameContext->fullScreen = false;
     gameContext->sizeChanged = true;
     gameContext->wireframe = true;
-    gameContext->Ztranslate = -40.0;
+    gameContext->Ztranslate = 0.0;
 
     gameContext->screenHeight = 700.0;
     gameContext->screenWidth = 900.0;
+
+    gameContext->timeStep = 1.0/60.0;
+
     return gameContext;
 }
 
 void initialize(void) {
     SceneManager *sceneManager = SceneManager::instance();
-    Scene * startScene = new StartScreen();
+    Scene * startScene = new GameScreen();
     startScene->create();
     sceneManager->getScenes()->push_back(startScene);
     sceneManager->setActiveScene(sceneManager->getScenes()->size() - 1);

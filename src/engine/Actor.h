@@ -29,6 +29,12 @@ protected:
 
   GLfloat posZ;
 
+  GLfloat angleX;
+
+  GLfloat angleY;
+
+  GLfloat angleZ;
+
 public:
   int getId() const;
 
@@ -58,7 +64,19 @@ public:
 
   void setPosZ(GLfloat posZ);
 
-  virtual void create() = 0;
+    GLfloat getAngleX() const;
+
+    void setAngleX(GLfloat angleX);
+
+    GLfloat getAngleY() const;
+
+    void setAngleY(GLfloat angleY);
+
+    GLfloat getAngleZ() const;
+
+    void setAngleZ(GLfloat angleZ);
+
+    virtual void create() = 0;
 
   virtual void draw() = 0;
 
