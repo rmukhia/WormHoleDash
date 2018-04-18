@@ -7,8 +7,8 @@
 
 #include "../glheaders.h"
 
-void initializeOpenGL(int argc, char **argv, void (* callback)(void));
-void drawScene(void);
+void initializeOpenGL(int argc, char **argv, void (* callback)());
+void drawScene();
 void resize(int w, int h);
 void keyInput(unsigned char key, int x, int y);
 void redraw();

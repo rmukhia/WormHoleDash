@@ -8,91 +8,143 @@
 #include "../actors/SpeedBuggy.h"
 #include "../CommandCodes.h"
 #include "../../engine/OpenGLWrapper.h"
-#include "../TunnelGenerator.h"
+#include "../actors/Track.h"
+#include "OBJ_Loader.h"
+#include "../../engine/DebugDraw.h"
 
 enum IDS {
     BUGGY = 1,
-    TUNNEL,
+    TRACK,
 };
+
+void GameScreen::loadObj() {
+    Game *game = Game::instance();
+    objl::Loader Loader;
+
+    bool loadout = Loader.LoadFile(game->getOBJPath("track5_1.obj"));
+    if (loadout) {
+
+        for(auto actor: *getActors()) {
+            // negative mesh id means it does not exist
+            if(actor->getMeshIndex() < 0)
+                continue;
+
+            objl::Mesh curMesh = Loader.LoadedMeshes[actor->getMeshIndex()];
+
+            // set vertices
+            actor->setNum_vertices(curMesh.Vertices.size());
+            GLfloat *vertices = new GLfloat[actor->getNum_vertices() * 3];
+            int j =0;
+            for(int i = 0; i < actor->getNum_vertices(); i++) {
+                vertices[j++] = curMesh.Vertices[i].Position.X;
+                vertices[j++] = curMesh.Vertices[i].Position.Y;
+                vertices[j++] = curMesh.Vertices[i].Position.Z;
+            }
+
+            actor->setVertices(vertices);
+
+            // Load indices
+            actor->setNum_indices(curMesh.Indices.size());
+            GLint *indices = new GLint[actor->getNum_indices()];
+
+            for(int i = 0; i < actor->getNum_indices(); i++)
+                indices[i] =curMesh.Indices[i];
+
+            actor->setIndices(indices);
+
+            vertices = nullptr;
+            indices = nullptr;
+        }
+    }
+}
 
 void GameScreen::create() {
     Game * game = Game::instance();
     Scene::create();
     auto * camera = new Camera(60.0, game->getAspectRatio(), 1.0, 100.0);
     setCamera(camera);
-    rp3d::Vector3 gravity(0.0, -9.81, 0.0);
-    world = new rp3d::DynamicsWorld(gravity);
+    broadphase = new btDbvtBroadphase();
+    collisionConfiguration = new btDefaultCollisionConfiguration();
+    dispatcher = new btCollisionDispatcher(collisionConfiguration);
+    solver = new btSequentialImpulseConstraintSolver;
+    dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+    dynamicsWorld->setGravity(btVector3(0, -0.4, 0));
 
-    //StartBackground *background = new StartBackground();
-    auto *buggy = new SpeedBuggy();
+    auto *buggy = new SpeedBuggy;
+    buggy->create();
     buggy->setId(IDS::BUGGY);
-
-    //getActors()->push_back(background);
+    buggy->setMeshIndex(0);
     getActors()->push_back(buggy);
 
-    speedBuggy = buggy;
+    auto *track = new Track;
+    track->create();
+    track->setId(IDS::TRACK);
+    track->setMeshIndex(1);
+    getActors()->push_back(track);
 
-    for(auto tunnel:*TunnelGenerator::getTunnels(20, 0, 0, 0)){
-        tunnel->setId(IDS::TUNNEL);
-        getActors()->push_back(tunnel);
+    loadObj();
+
+    buggy->createBody(dynamicsWorld);
+    track->createBody(dynamicsWorld);
+
+    if (game->debug) {
+        dynamicsWorld->setDebugDrawer(new DebugDraw);
+        dynamicsWorld->getDebugDrawer()->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
     }
 
-}
-
-GLfloat *getPoint(GLfloat p1[3], GLfloat p2[3], GLfloat z) {
-    GLfloat  v[3];
-    GLfloat *result = new GLfloat[3];
-    v[0] = p2[0] - p1[0];
-    v[1] = p2[1] - p1[1];
-    v[2] = p2[2] - p1[2];
-
-    GLfloat t = (z - p1[2])/ v[2];
-    GLfloat x = p1[0] + v[0] * t;
-    GLfloat y = p1[1] + v[1] * t;
-
-    result[0] = x;
-    result[1] = y;
-    result[2] = z;
-
-    return result;
 }
 
 void GameScreen::preDraw() {
-    /* Figure out which tunnel the buggy is in */
-    for(auto actor: *getActors()) {
-        if(actor->getId() != IDS::TUNNEL)
-            continue;
-        auto *tunnel = (Tunnel *)actor;
-        if(speedBuggy->getPosZ() <= tunnel->getStartZ() && speedBuggy->getPosZ() >= tunnel->getEndZ()) {
-            currentTunnel = tunnel;
-            break;
+}
+
+void GameScreen::debugDraw() {
+    Game *game = Game::instance();
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
+    getCamera()->lookAt();
+    glTranslated(0.0, 0.0, game->Ztranslate);
+
+    for(auto cmd: *getSceneCommandQueue()) {
+        switch(cmd->getOpcode()) {
+            case ROTATE_X:
+                game->Xangle += cmd->params;
+                break;
+            case ROTATE_Y:
+                game->Yangle += cmd->params;
+                break;
+            case ROTATE_Z:
+                game->Zangle += cmd->params;
+                break;
         }
     }
+    getSceneCommandQueue()->clear();
 
-    GLfloat up[3] = {0, 1, 0};
-    GLfloat center[3] = { speedBuggy->getPosX(), speedBuggy->getPosY(), speedBuggy->getPosZ()};
-    GLfloat * tStart = currentTunnel->_getStartVertices();
-    GLfloat * tEnd = currentTunnel->_getEndVertices();
+    glRotatef(game->Xangle, 0, 1, 0);
+    glRotatef(game->Yangle, 0, 1, 0);
+    glRotatef(game->Zangle, 0, 0, 1);
 
-    GLfloat zPos = speedBuggy->getPosZ()  + 10.0;
-    GLfloat *p = getPoint(tStart, tEnd, zPos);
+    dynamicsWorld->debugDrawWorld();
 
-    if (currentTunnel) {}
-        getCamera()->setLookAt(p, &tEnd[0], &up[0]);
+    glutSwapBuffers();
+
 }
 
-void GameScreen::draw(int nSteps) {
+void GameScreen::draw(long double deltaTime) {
+    Game *game = Game::instance();
     getCamera()->project();
     preDraw();
-    Scene::draw(nSteps);
+    if (game->debug)
+        debugDraw();
+    else
+        Scene::draw(deltaTime);
 }
 
-void GameScreen::update(int nSteps) {
-    Scene::update(nSteps);
+void GameScreen::update(long double deltaTime) {
+    Scene::update(deltaTime);
 
     Game *game = Game::instance();
-    for(int i = 0; i < nSteps; i++)
-        world->update(game->timeStep);
+    if (dynamicsWorld)
+        dynamicsWorld->stepSimulation(deltaTime, 7);
 }
 
 void GameScreen::paused() { Scene::paused(); }
@@ -122,5 +174,13 @@ void GameScreen::keyInput(unsigned char key, int x, int y) {
 
     redraw();
 
+}
+
+GameScreen::~GameScreen() {
+    delete broadphase;
+    delete collisionConfiguration;
+    delete dispatcher;
+    delete solver;
+    delete dynamicsWorld;
 }
 

@@ -20,8 +20,10 @@ protected:
   char *name; // object name
 
   GLint num_vertices;
-
   GLfloat *vertices;
+
+  GLint num_indices;
+  GLint *indices;
 
   GLfloat posX;
 
@@ -34,6 +36,8 @@ protected:
   GLfloat angleY;
 
   GLfloat angleZ;
+
+  int meshIndex;
 
 public:
   int getId() const;
@@ -52,7 +56,15 @@ public:
 
   void setVertices(GLfloat *vertices);
 
-  GLfloat getPosX() const;
+    GLint getNum_indices() const;
+
+    void setNum_indices(GLint num_indices);
+
+    GLint *getIndices() const;
+
+    void setIndices(GLint *indices);
+
+    GLfloat getPosX() const;
 
   void setPosX(GLfloat posX);
 
@@ -76,6 +88,10 @@ public:
 
     void setAngleZ(GLfloat angleZ);
 
+    int getMeshIndex() const;
+
+    void setMeshIndex(int meshIndex);
+
     virtual void create() = 0;
 
   virtual void draw() = 0;
@@ -85,6 +101,7 @@ public:
   virtual void destroy() = 0;
 
   virtual void act(Command *pCommand) = 0;
+
 };
 
 #endif // CGPROJECT_GAMEOBJECT_H

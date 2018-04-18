@@ -20,7 +20,7 @@ private:
     int currSceneIndex;
 
 protected:
-    SceneManager() {};
+    SceneManager() = default;;
 
 public:
     static SceneManager * instance();
@@ -28,7 +28,7 @@ public:
     std::vector<Scene*> *getScenes();
 
     Scene * getActiveScene() {
-        if (scenes.size() == 0) {
+        if (scenes.empty()) {
             return nullptr;
         }
         return scenes[currSceneIndex];

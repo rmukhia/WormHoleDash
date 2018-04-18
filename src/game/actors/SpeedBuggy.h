@@ -6,12 +6,12 @@
 #define WORMHOLEDASH_SPEEDBUGGY_H
 
 
+#include <btBulletDynamicsCommon.h>
 #include "../../glheaders.h"
 #include "../../engine/Actor.h"
 
 class SpeedBuggy: public Actor {
-    rp3d::RigidBody * body;
-
+    btRigidBody *rigidBody;
 public:
     void create() override;
 
@@ -22,6 +22,9 @@ public:
     void destroy() override;
 
     void act(Command *pCommand) override;
+    void createBody(btDiscreteDynamicsWorld *world);
+
+    btRigidBody *getRigidBody() const;
 };
 
 

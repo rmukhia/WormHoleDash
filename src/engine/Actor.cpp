@@ -57,3 +57,27 @@ GLfloat Actor::getAngleZ() const {
 void Actor::setAngleZ(GLfloat angleZ) {
   Actor::angleZ = angleZ;
 }
+
+int Actor::getMeshIndex() const {
+    return meshIndex;
+}
+
+void Actor::setMeshIndex(int meshIndex) {
+    Actor::meshIndex = meshIndex;
+}
+
+GLint Actor::getNum_indices() const {
+    return num_indices;
+}
+
+void Actor::setNum_indices(GLint num_indices) {
+    Actor::num_indices = num_indices;
+}
+
+GLint * Actor::getIndices() const {
+    return indices;
+}
+
+void Actor::setIndices(GLint *indices) {
+    Actor::indices = indices;
+}

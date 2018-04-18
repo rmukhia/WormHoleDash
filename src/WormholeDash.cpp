@@ -16,17 +16,21 @@ Game *initGameContext() {
     gameContext->fullScreen = false;
     gameContext->sizeChanged = true;
     gameContext->wireframe = true;
-    gameContext->Ztranslate = 0.0;
+    gameContext->Ztranslate = -10.0;
 
     gameContext->screenHeight = 700.0;
     gameContext->screenWidth = 900.0;
 
     gameContext->timeStep = 1.0/60.0;
 
+    gameContext->debug = true;
+
+    strcpy(gameContext->objpath, "../resources/models/");
+
     return gameContext;
 }
 
-void initialize(void) {
+void initialize() {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * startScene = new GameScreen();
     startScene->create();

@@ -21,9 +21,9 @@ private:
 public:
     virtual void create();
 
-    virtual void draw(int nSteps);
+    virtual void draw(long double deltaTime);
 
-    virtual void update(int nSteps);
+    virtual void update(long double deltaTime);
 
     virtual void paused();
 
@@ -42,6 +42,7 @@ public:
     void addCommand(Command *command);
 
     std::list<Command *>  *getCommandQueue();
+    std::list<Command *>  *getSceneCommandQueue();
 
 };
 

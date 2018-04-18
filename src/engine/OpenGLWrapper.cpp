@@ -11,14 +11,14 @@
 static long double previousFrameTime = -1.0;
 static long double timeAccumulator = 0.0;
 
-void setup(void (*callback)(void)) {
+void setup(void (*callback)()) {
     Game *game = Game::instance();
     game->screenWidth = glutGet(GLUT_WINDOW_WIDTH);
     game->screenHeight = glutGet(GLUT_WINDOW_HEIGHT);
     callback();
 }
 
-void initializeOpenGL(int argc, char **argv, void (*callback)(void)) {
+void initializeOpenGL(int argc, char **argv, void (*callback)()) {
     Game *game = Game::instance();
     SceneManager *sceneManager = SceneManager::instance();
     glutInit(&argc, argv);
@@ -46,13 +46,13 @@ void initializeOpenGL(int argc, char **argv, void (*callback)(void)) {
 }
 
 long double getCurrentSystemTime() {
-    timeval time;
-    gettimeofday(&time, NULL);
+    timeval time{};
+    gettimeofday(&time, nullptr);
     long t = (time.tv_sec * 1000) + (time.tv_usec / 1000);
     return t/1000.0;
 }
 
-int timestepUpdate() {
+long double timestepUpdate() {
     int num_steps = 0;
     Game *game = Game::instance();
     float timeStep = game->timeStep;
@@ -74,20 +74,19 @@ int timestepUpdate() {
         timeAccumulator -= timeStep;
     }
 
-    return num_steps;
+    return deltaTime;
 }
 
-void drawScene(void) {
+void drawScene() {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
 
-    long double currentFrameTime = getCurrentSystemTime();
-
     if (scene) {
-        int num_steps = timestepUpdate();
-        scene->update(num_steps);
-        scene->draw(num_steps);
+        long double deltaTime = timestepUpdate();
+        scene->update(deltaTime);
+        scene->draw(deltaTime);
     }
+    redraw();
 }
 
 void resize(int w, int h) {

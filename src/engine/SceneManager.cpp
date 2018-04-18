@@ -6,7 +6,7 @@
 #include "Scene.h"
 #include "SceneManager.h"
 
-SceneManager* SceneManager::_instance = 0;
+SceneManager* SceneManager::_instance = nullptr;
 
 SceneManager* SceneManager::instance() {
     if (!_instance) {

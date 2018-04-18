@@ -9,6 +9,7 @@
 
 
 class Game {
+private:
 public:
     bool fullScreen;
     float screenHeight;
@@ -24,6 +25,10 @@ public:
     GLfloat Zangle; // Angles to rotate hemisphere.
 
     float timeStep;
+    char objpath[255];
+    bool debug;
+
+    char * getOBJPath(const char *string);
 
 public:
     static Game * instance();
@@ -33,8 +38,7 @@ public:
     }
 
 protected:
-    Game() {
-    }
+    Game() = default;
 
 private:
     static Game * _instance;

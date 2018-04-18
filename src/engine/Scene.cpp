@@ -15,7 +15,7 @@ void Scene::create() {
 }
 
 //TODO: Try to implement batch later on
-void Scene::draw(int i) {
+void Scene::draw(long double deltaTime) {
     Game *game = Game::instance();
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
@@ -50,7 +50,7 @@ void Scene::draw(int i) {
     glutSwapBuffers();
 }
 
-void Scene::update(int i) {
+void Scene::update(long double i) {
     // Try to apply command to all the actors in stage
     // The actor should evaluate the command and take proper steps
 
@@ -100,6 +100,10 @@ void Scene::setActors(const std::vector<Actor *> &actors) {
 
 std::list<Command *> * Scene::getCommandQueue() {
     return &commandQueue;
+}
+
+std::list<Command *> * Scene::getSceneCommandQueue() {
+    return &sceneCommandQueue;
 }
 
 void Scene::addCommand(Command *command) {
