@@ -11,7 +11,6 @@ void Camera::project() {
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
         gluPerspective(fovy, game->getAspectRatio(), zNear, zFar);
-        changed = false;
         game->sizeChanged = false;
         glMatrixMode(GL_MODELVIEW);
     }

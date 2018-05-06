@@ -81,3 +81,35 @@ GLint * Actor::getIndices() const {
 void Actor::setIndices(GLint *indices) {
     Actor::indices = indices;
 }
+
+GLint Actor::getNum_normals() const {
+    return num_normals;
+}
+
+void Actor::setNum_normals(GLint num_normals) {
+    Actor::num_normals = num_normals;
+}
+
+GLfloat *Actor::getNormals() const {
+    return normals;
+}
+
+void Actor::setNormals(GLfloat *normals) {
+    Actor::normals = normals;
+}
+
+GLint Actor::getNum_uvs() const {
+    return num_uvs;
+}
+
+void Actor::setNum_uvs(GLint num_uvs) {
+    Actor::num_uvs = num_uvs;
+}
+
+GLfloat *Actor::getUvs() const {
+    return uvs;
+}
+
+void Actor::setUvs(GLfloat *uvs) {
+    Actor::uvs = uvs;
+}

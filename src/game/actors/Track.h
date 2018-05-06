@@ -25,6 +25,7 @@ public:
 
     void createBody(btDiscreteDynamicsWorld *world);
 
+    void updateMaterial();
 };
 
 

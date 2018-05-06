@@ -17,10 +17,13 @@ void Scene::create() {
 //TODO: Try to implement batch later on
 void Scene::draw(long double deltaTime) {
     Game *game = Game::instance();
-    glClear(GL_COLOR_BUFFER_BIT);
+    if (game->depthTest)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    else
+        glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
     getCamera()->lookAt();
-    glTranslated(0.0, 0.0, game->Ztranslate);
+    //glTranslated(0.0, 0.0, game->Ztranslate);
 
     for(auto cmd: sceneCommandQueue) {
         switch(cmd->getOpcode()) {
@@ -132,4 +135,15 @@ void Scene::keyInput(unsigned char key, int x, int y) {
             break;
     }
 
+}
+
+void Scene::keyUp(unsigned char key, int x, int y) {
+}
+
+bool Scene::isLoaded() const {
+    return loaded;
+}
+
+void Scene::setLoaded(bool loaded) {
+    Scene::loaded = loaded;
 }

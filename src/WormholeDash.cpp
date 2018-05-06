@@ -15,17 +15,21 @@ Game *initGameContext() {
     strcpy(gameContext->gameName, "Wormhole Dash");
     gameContext->fullScreen = false;
     gameContext->sizeChanged = true;
-    gameContext->wireframe = true;
-    gameContext->Ztranslate = -10.0;
+    gameContext->wireframe = false;
+    gameContext->depthTest = true;
+    gameContext->blending = true;
+    gameContext->lighting = true;
+
+    //gameContext->Ztranslate = -20.0;
 
     gameContext->screenHeight = 700.0;
     gameContext->screenWidth = 900.0;
 
     gameContext->timeStep = 1.0/60.0;
 
-    gameContext->debug = true;
+    gameContext->debug = false;
 
-    strcpy(gameContext->objpath, "../resources/models/");
+    strcpy(gameContext->objpath, "../resources/");
 
     return gameContext;
 }

@@ -25,6 +25,13 @@ protected:
   GLint num_indices;
   GLint *indices;
 
+  GLint num_normals;
+  GLfloat *normals;
+
+  GLint num_uvs;
+  GLfloat *uvs;
+
+
   GLfloat posX;
 
   GLfloat posY;
@@ -63,6 +70,22 @@ public:
     GLint *getIndices() const;
 
     void setIndices(GLint *indices);
+
+    GLint getNum_normals() const;
+
+    void setNum_normals(GLint num_normals);
+
+    GLfloat *getNormals() const;
+
+    void setNormals(GLfloat *normals);
+
+    GLint getNum_uvs() const;
+
+    void setNum_uvs(GLint num_uvs);
+
+    GLfloat *getUvs() const;
+
+    void setUvs(GLfloat *uvs);
 
     GLfloat getPosX() const;
 

@@ -13,6 +13,6 @@ Game* Game::instance() {
     return _instance;
 }
 
-char *Game::getOBJPath(const char *string) {
+char *Game::getResourcePath(const char *string) {
     return strcat(objpath, string);
 }

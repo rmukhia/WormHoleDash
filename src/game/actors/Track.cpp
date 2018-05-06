@@ -37,6 +37,30 @@ void Track::createBody(btDiscreteDynamicsWorld * world) {
 
 }
 
+void Track::updateMaterial() {
+    GLfloat mat_emission[] = {0.0, 0.0, 0.0, 1.0};
+    GLfloat matSpec[] = { 1.0, 1.0, 1.0, 1.0 };
+    GLfloat matAmb[] = { 0.1, 0.1, 0.1, 1.0 };
+    GLfloat matDiff[] = { 0.3, 0.3, 0,3, 1.0 };
+    GLfloat matShine[] = { 50.0 };
+
+    // emission
+    glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, mat_emission);
+
+    // specular
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, matSpec);
+
+    // shine
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, matShine);
+
+    // ambient
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, matAmb);
+
+
+    // diffuse
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, matDiff);
+}
+
 void Track::draw() {
     btTransform trans;
     rigidBody->getMotionState()->getWorldTransform(trans);
@@ -44,11 +68,13 @@ void Track::draw() {
     trans.getOpenGLMatrix(m);
     glPushMatrix();
     glMultMatrixf(m);
-    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnable(GL_COLOR_MATERIAL);
     glVertexPointer(3, GL_FLOAT, 0, vertices);
-    glColor4f(0.2,0.2,0.2, 1.0);
+    glNormalPointer(GL_FLOAT, 0, normals);
+    glColor4f(1.0,1.0,1.0, 0.5);
+    updateMaterial();
     glDrawArrays(GL_TRIANGLES, 0, num_vertices);
-    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisable(GL_COLOR_MATERIAL);
     glPopMatrix();
 }
 

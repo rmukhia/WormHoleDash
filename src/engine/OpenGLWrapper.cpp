@@ -15,6 +15,16 @@ void setup(void (*callback)()) {
     Game *game = Game::instance();
     game->screenWidth = glutGet(GLUT_WINDOW_WIDTH);
     game->screenHeight = glutGet(GLUT_WINDOW_HEIGHT);
+    if(game->depthTest)
+        glEnable(GL_DEPTH_TEST);
+    if(game->blending) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    }
+    if(game->lighting) {
+        glEnable(GL_LIGHTING);
+    }
+
     callback();
 }
 
@@ -25,7 +35,11 @@ void initializeOpenGL(int argc, char **argv, void (*callback)()) {
     glutInitContextVersion(4, 2);
     glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
 
-    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
+    if (game->depthTest)
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
+    else
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
+
     glutInitWindowSize(game->screenWidth, game->screenHeight);
     glutInitWindowPosition(50, 50);
 
@@ -38,6 +52,7 @@ void initializeOpenGL(int argc, char **argv, void (*callback)()) {
     glutDisplayFunc(drawScene);
     glutReshapeFunc(resize);
     glutKeyboardFunc(keyInput);
+    glutKeyboardUpFunc(keyUp);
 
     glewExperimental = GL_TRUE;
     glewInit();
@@ -81,7 +96,7 @@ void drawScene() {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
 
-    if (scene) {
+    if (scene && scene->isLoaded()) {
         long double deltaTime = timestepUpdate();
         scene->update(deltaTime);
         scene->draw(deltaTime);
@@ -102,11 +117,21 @@ void keyInput(unsigned char key, int x, int y) {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
 
-    std::cout << key<< std::endl;
+    std::cout << key << " down" << std::endl;
 
-    if (scene) {
+    if (scene)
         scene->keyInput(key, x, y);
-    }
+}
+
+void keyUp(unsigned char key,int x, int y)
+{
+    SceneManager *sceneManager = SceneManager::instance();
+    Scene * scene = sceneManager->getActiveScene();
+
+    std::cout << key << " up" << std::endl;
+
+    if(scene)
+        scene->keyUp(key, x, y);
 }
 
 void redraw() {

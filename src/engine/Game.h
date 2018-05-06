@@ -12,6 +12,9 @@ class Game {
 private:
 public:
     bool fullScreen;
+    bool depthTest;
+    bool blending;
+    bool lighting;
     float screenHeight;
     float screenWidth;
     bool sizeChanged;
@@ -28,7 +31,7 @@ public:
     char objpath[255];
     bool debug;
 
-    char * getOBJPath(const char *string);
+    char * getResourcePath(const char *string);
 
 public:
     static Game * instance();

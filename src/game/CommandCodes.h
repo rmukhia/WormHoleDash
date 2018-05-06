@@ -16,6 +16,8 @@ enum SpeedBuggyCommands {
     MOVE_RIGHT,
     MOVE_ACCELERATE,
     MOVE_BREAK,
+    RELEASE_ENGINE,
+    RELEASE_STEERING,
 };
 
 

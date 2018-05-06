@@ -8,11 +8,13 @@
 #include "../../glheaders.h"
 #include "../../engine/Scene.h"
 #include "../actors/SpeedBuggy.h"
+#include "../actors/TextureBox.h"
 #include <btBulletDynamicsCommon.h>
 
 class GameScreen : public Scene {
 private:
     SpeedBuggy *buggy;
+    TextureBox *textureBox;
 
     /* Bullet physics engine stuffs */
     btDbvtBroadphase *broadphase;
@@ -20,6 +22,8 @@ private:
     btCollisionDispatcher *dispatcher;
     btSequentialImpulseConstraintSolver *solver;
     btDiscreteDynamicsWorld *dynamicsWorld;
+
+    void setupLight();
 public:
     void create() override;
 
@@ -35,7 +39,11 @@ public:
 
     void keyInput(unsigned char key, int x, int y) override;
 
+    void keyUp(unsigned char key, int x, int y) override;
+
     void loadObj();
+
+    void loadTextures();
 
     virtual ~GameScreen();
 

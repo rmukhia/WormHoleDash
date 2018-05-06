@@ -18,6 +18,7 @@ private:
     enum state { STOPPED, PAUSED, RUNNING};
     std::list<Command *> commandQueue;
     std::list<Command *> sceneCommandQueue;
+    bool loaded = false;
 public:
     virtual void create();
 
@@ -31,6 +32,8 @@ public:
 
     virtual void keyInput(unsigned char key, int x, int y);
 
+    virtual void keyUp(unsigned char key, int x, int y);
+
     std::vector<Actor *>  * getActors();
 
     void setActors(const std::vector<Actor *> &actors);
@@ -43,6 +46,10 @@ public:
 
     std::list<Command *>  *getCommandQueue();
     std::list<Command *>  *getSceneCommandQueue();
+
+    bool isLoaded() const;
+
+    void setLoaded(bool loaded);
 
 };
 
