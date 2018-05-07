@@ -22,7 +22,7 @@ void TextureBox::create() {
 }
 
 void TextureBox::updateMaterial() {
-    GLfloat mat_emission[] = {0.0, 0.0, 0.0, 1.0};
+    GLfloat mat_emission[] = {0.2, 0.2, 0.2, 1.0};
     GLfloat matSpec[] = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat matAmb[] = { 0.0, 0.0, 0.0, 1.0 };
     GLfloat matDiff[] = { 0.0, 0.0, 0,0, 1.0 };

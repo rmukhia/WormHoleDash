@@ -15,12 +15,15 @@
 #include "../actors/SpeedBuggyWheel.h"
 #include "../../engine/getBMP.h"
 #include "../actors/TextureBox.h"
+#include "../../engine/SceneManager.h"
 
 enum IDS {
     BUGGY = 1,
     TRACK,
     TEXTUREBOX,
+    TEXT
 };
+
 
 void GameScreen::loadObj() {
     Game *game = Game::instance();
@@ -85,7 +88,7 @@ void GameScreen::loadObj() {
 void GameScreen::create() {
     Game * game = Game::instance();
     Scene::create();
-    auto * camera = new Camera(120.0, game->getAspectRatio(), 1.0, 2000.0);
+    auto * camera = new Camera(115.0, game->getAspectRatio(), 1.0, 2000.0);
     setCamera(camera);
     broadphase = new btDbvtBroadphase();
     collisionConfiguration = new btDefaultCollisionConfiguration();
@@ -93,6 +96,7 @@ void GameScreen::create() {
     solver = new btSequentialImpulseConstraintSolver;
     dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
     dynamicsWorld->setGravity(btVector3(0, 2* -0.98, 0));
+
 
     textureBox = new TextureBox;
     textureBox->create();
@@ -118,6 +122,19 @@ void GameScreen::create() {
     buggy->setMeshIndex(2);
     buggy->setSpeedBuggyWheels(speedBuggyWheel);
     getActors()->push_back(buggy);
+
+    startText = new StartText;
+    startText->create();
+    startText->setId(IDS::TEXT);
+    startText->setMeshIndex(-1);
+    startText->setRunning(false);
+    getActors()->push_back(startText);
+
+    timerText = new TimerText;
+    timerText->create();
+    timerText->setId(IDS::TEXT);
+    timerText->setMeshIndex(-1);
+    getActors()->push_back(timerText);
 
     loadTextures();
     loadObj();
@@ -165,8 +182,12 @@ void GameScreen::preDraw() {
 
    cam->setLookAt(eye, center, u);
 
+
    // Copy the transform
    memcpy(textureBox->getBuggyTransform(), m, sizeof(GLfloat) * 16);
+   memcpy(startText->getBuggyTransform(), m, sizeof(GLfloat) * 16);
+   memcpy(timerText->getBuggyTransform(), m, sizeof(GLfloat) * 16);
+
 }
 
 void GameScreen::debugDraw() {
@@ -207,15 +228,18 @@ void GameScreen::draw(long double deltaTime) {
     preDraw();
     if (game->debug)
         debugDraw();
-    else
+    else {
         Scene::draw(deltaTime);
+        if (startText->isRunning())
+            timerText->updateTime(deltaTime);
+    }
 }
 
 void GameScreen::update(long double deltaTime) {
     Scene::update(deltaTime);
 
     Game *game = Game::instance();
-    if (dynamicsWorld)
+    if (dynamicsWorld && (startText->isRunning() || startingFrameRun-- > 0))
         dynamicsWorld->stepSimulation(deltaTime, 7);
 }
 
@@ -242,7 +266,14 @@ void GameScreen::keyInput(unsigned char key, int x, int y) {
         case 'S':
             addCommand(new Command(SpeedBuggyCommands::MOVE_BREAK, IDS::BUGGY));
             break;
+        case ' ':
+            startText->setRunning(true);
+            break;
+        case 27:
+            startText->setRunning(false);
+            break;
     }
+
 }
 
 void GameScreen::keyUp(unsigned char key, int x, int y) {

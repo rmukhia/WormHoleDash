@@ -9,12 +9,16 @@
 #include "../../engine/Scene.h"
 #include "../actors/SpeedBuggy.h"
 #include "../actors/TextureBox.h"
+#include "../actors/StartText.h"
+#include "../actors/TimerText.h"
 #include <btBulletDynamicsCommon.h>
 
 class GameScreen : public Scene {
 private:
     SpeedBuggy *buggy;
     TextureBox *textureBox;
+    StartText *startText;
+    TimerText *timerText;
 
     /* Bullet physics engine stuffs */
     btDbvtBroadphase *broadphase;
@@ -23,6 +27,7 @@ private:
     btSequentialImpulseConstraintSolver *solver;
     btDiscreteDynamicsWorld *dynamicsWorld;
 
+    int startingFrameRun = 60;
     void setupLight();
 public:
     void create() override;
@@ -48,6 +53,7 @@ public:
     virtual ~GameScreen();
 
     void debugDraw();
+
 };
 
 #endif // WORMHOLEDASH_STARTSCREEN_H

@@ -18,8 +18,9 @@ private:
     enum state { STOPPED, PAUSED, RUNNING};
     std::list<Command *> commandQueue;
     std::list<Command *> sceneCommandQueue;
-    bool loaded = false;
+    bool loaded;
 public:
+    bool running = false;
     virtual void create();
 
     virtual void draw(long double deltaTime);

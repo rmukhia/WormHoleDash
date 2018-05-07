@@ -98,10 +98,10 @@ void SpeedBuggy::createBody(btDiscreteDynamicsWorld * world) {
         btTransform tr;
         tr.setIdentity();
         btQuaternion quat;
-        quat.setEuler(1.5,0.1,0.0);
+        quat.setEuler(1.9,0.1,0.0);
         tr.setRotation(quat);
         rigidBody->setCenterOfMassTransform(tr);
-        rigidBody->translate(btVector3(+10.0, 0.0, 0.0));
+        rigidBody->translate(btVector3(+10.0, -4.5, 0.0));
     }
 
 }

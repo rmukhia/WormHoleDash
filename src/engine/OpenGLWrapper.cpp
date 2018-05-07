@@ -117,8 +117,6 @@ void keyInput(unsigned char key, int x, int y) {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
 
-    std::cout << key << " down" << std::endl;
-
     if (scene)
         scene->keyInput(key, x, y);
 }
@@ -127,8 +125,6 @@ void keyUp(unsigned char key,int x, int y)
 {
     SceneManager *sceneManager = SceneManager::instance();
     Scene * scene = sceneManager->getActiveScene();
-
-    std::cout << key << " up" << std::endl;
 
     if(scene)
         scene->keyUp(key, x, y);
